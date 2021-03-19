@@ -16,14 +16,42 @@
         //dans chaque catégorie on gère élément par élément en fonction de son unité (ex: si c'est les millier on remplace les I par des M)
 
 function chiffre(val){
-    /*if(typeof val === 'string'){
+    if(typeof val === 'string'){
         const reg = new RegExp(/[^IVXLCDM]/g);
         if(val.match(reg) !== null){
             return 'La chaine comprend des caractères différents des chiffres romains'
         }else{
-            return 1
+            var i = 0, n = 0;
+            val = val.toUpperCase();     
+            // Calcul les milliers
+            while (val.charAt(i) == "M") n+=1000, i++;
+            
+            // Calcul les centaines
+            if(val.substr(i,2) == "CM") n+=900, i+=2; else 
+            if(val.substr(i,2) == "CD") n+=400, i+=2; 
+            else {
+            if(val.charAt(i) == "D") n+= 500, i++;       
+            while(val.charAt(i) == "C") n+=100, i++;
+            }
+            
+            // Calcul les dizaines
+            if(val.substr(i,2) == "XC") n+=90, i += 2; else 
+            if(val.substr(i,2) == "XL") n+=40, i += 2; 
+            else {
+            if(val.charAt(i) == "L") n+=50, i++;  
+            while (val.charAt(i) == "X") n+=10, i++;
+            }
+            
+            // Calcul les unités
+            if(val.substr(i,2) == "IX") n += 9, i+=2; else 
+            if(val.substr(i,2) == "IV") n += 4, i += 2; 
+            else {
+            if(val.charAt(i) == "V") n += 5, i++; 
+            while(val.charAt(i) == "I") n++, i++;
+            }
+            return n;
         }
-    }*/
+    }
     if(Number.isInteger(val)){
         if(val>3999 || val < 1){
             return "Le chiffre n'est pas compris entre 1 et 3999 inclus."
@@ -42,5 +70,6 @@ function chiffre(val){
         }
     }
 }
+
 
 module.exports = chiffre
